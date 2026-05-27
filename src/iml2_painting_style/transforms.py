@@ -16,8 +16,11 @@ def get_transforms(split, image_size=64):
 
     if split == "train":
         return transforms.Compose([
-            transforms.Resize((image_size, image_size), interpolation=InterpolationMode.BILINEAR),
+            transforms.RandomResizedCrop(image_size, scale=(0.7, 1.0)),
             transforms.RandomHorizontalFlip(p=0.5),
+            transforms.RandomVerticalFlip(p=0.2),
+            transforms.RandomRotation(degrees=15),
+            transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.2, hue=0.1),
             transforms.ToTensor(),
             transforms.Normalize(mean=img_mean, std=img_std),
         ])
